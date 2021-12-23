@@ -1,0 +1,83 @@
+<ion-content>
+  <div id="header">
+    <a target="_blank" href="https://www.coordinadora.com/" id="logo">
+      <img src="../../../assets/icon/coordinadora.png">
+    </a>
+    <button (click)="SingOut()" id="btn-sing-out"><i class="fas fa-sign-out-alt"></i></button>
+  </div>
+  <div id="container">
+    <div id="data">
+      <strong>{{user.full_name}}</strong>
+      <div id="amount">
+        <div class="item" id="incmoming">
+          <small>{{abstract.incoming}}</small>
+          <span>Entrantes</span>
+        </div>
+        <div class="item" id="resolved">
+          <small>{{abstract.resolved}}</small>
+          <span>Resueltos</span>
+        </div>
+      </div>
+    </div>
+    <div id="options">
+      <div></div>
+      <div class="others">
+        <a [routerLink]="['/history']" class="btn-history rd-00A8E6"><i class="fas fa-history"></i></a>
+        <a [routerLink]="['/notifications']" class="btn-notificaction rd-gray">
+          <i class="fas fa-bell"></i>
+          <small *ngIf="bell"></small>
+        </a>
+      </div>
+    </div>
+    <div id="nav">
+      <small id="nav-title">Acceda al servicio de soporte mediante:</small>
+      <div id="nav-list">
+        <a class="item" [routerLink]="['/ticket/new/1']">
+          <i class="fas fa-ticket-alt"></i>
+          <span>Nuevo caso</span>
+          <div class="amount">
+            <!-- <small *ngIf="abstract.service.incoming != 0" class="incoming">{{abstract.service.incoming}}</small>
+            <small *ngIf="abstract.service.resolved != 0" class="closed">{{abstract.service.resolved}}</small> -->
+          </div>
+        </a>
+        <a class="item"  [routerLink]="['/chat']">
+          <i class="far fa-comments"></i>
+          <span>Chat</span>
+          <div class="amount">
+            <!-- <small *ngIf="abstract.chat.incoming != 0" class="incoming">{{abstract.chat.incoming}}</small>
+            <small *ngIf="abstract.chat.resolved != 0" class="closed">{{abstract.chat.resolved}}</small> -->
+          </div>
+        </a>
+        <a class="item" href="mailto:otrs.testing.imap@gmail.com">
+          <i class="fas fa-envelope"></i>
+          <span>Correo</span>
+          <div class="amount">
+            <!-- <small *ngIf="abstract.email.incoming != 0" class="incoming">{{abstract.email.incoming}}</small>
+            <small *ngIf="abstract.email.resolved != 0" class="closed">{{abstract.email.resolved}}</small> -->
+          </div>
+        </a>
+        <a class="item" [routerLink]="['/call']">
+          <i class="fas fa-phone-alt"></i>
+          <span>Telefónico</span>
+          <div class="amount">
+            <!-- <small *ngIf="abstract.tel.incoming != 0" class="incoming">{{abstract.tel.incoming}}</small>
+            <small *ngIf="abstract.tel.resolved != 0" class="closed">{{abstract.tel.resolved}}</small> -->
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-home">
+    <img class="img-home" src="../../../assets/icon/home.png" alt="">
+  </div>
+  <ion-fab title="Ir a la mesa" vertical="bottom" horizontal="end"
+      slot="fixed">
+      <ion-fab-button target="_blank"
+          href="http://161.35.62.68/otrs/customer.pl">
+          <div class="btn-flot">
+              <img class="otrs-icon" src="../../assets/icon/otrs.png" alt="">
+          </div>
+      </ion-fab-button>
+  </ion-fab>  
+  <app-notification (showEvent)="modal.modal=$event" [modal]="modal"></app-notification>
+</ion-content>

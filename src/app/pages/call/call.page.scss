@@ -1,0 +1,37 @@
+.name {
+    color: #1363AD;
+    font-size: 25px;
+}
+
+.number {
+    color: rgba(0, 0, 0, 0.707);
+    font-size: 20px;
+}
+
+.options {
+    padding-right: 20px;
+    button {
+        width: 30px;
+        height: 30px;
+
+        color: white;
+
+        border-radius: 100px;
+    }
+}
+
+.item-1 {
+    div {
+        padding: 5px 20px;
+    }
+}
+
+.btn-outgoing {
+    background: linear-gradient(135deg, #1363AD, #1363ada1);
+    color: white;
+}
+
+.btn-attended {
+    background: linear-gradient(135deg, #00A8E6, #00a9e670);
+    color: white;
+}

@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home">
+      </ion-back-button>
+    </ion-buttons>
+    <div class="header-page">
+      <div class="title">
+        Chat
+      </div>
+      <div class="options">
+        <button (click)="ShowList(1)" class="btn">Activos</button>
+        <button (click)="ShowList(2)" class="btn">Cerrados</button>
+        <button (click)="filter = !filter" class=""><i class="fas fa-filter"></i></button>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form (ngSubmit)="Get()" *ngIf="filter" class="searcher">
+    <input [(ngModel)]="indication" name="indication" id="indication" placeholder="Asunto del chat" type="text">
+    <button><i class="fas fa-search"></i></button>
+  </form>
+  <div class="chat-header">
+    <div class="chat-title">
+      <i *ngIf="activeList == 'chat-active-list'" class="fas fa-comments"></i>
+      <small *ngIf="activeList == 'chat-active-list'">Activos</small>
+      <i *ngIf="activeList == 'chat-closed-list'" class="far fa-comments"></i>
+      <small *ngIf="activeList == 'chat-closed-list'">Convertidos a ticket</small>
+    </div>
+    <!-- <button class="btn-archive"><i class="fas fa-archive"></i></button> -->
+  </div>
+  <ion-list>
+    <div id="list">
+      <a [routerLink]="['/chat', item.id]" class="item-chat" *ngFor="let item of list">
+        <div class="item-data">
+          <strong>{{item.agent}}</strong>
+          <span>{{item.subject}}</span>
+        </div>
+        <div class="item-info">
+          <small class="new_messages" *ngIf="item.new_messages && item.new_messages != 0">{{item.new_messages}}</small>
+          <small class="date">{{item.create_time}}</small>
+        </div>
+      </a>
+    </div>
+  </ion-list>
+  <ion-fab title="Ir a la mesa" vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button [routerLink]="['/chat', '-1']">
+      <div class="btn-flot">
+        <i class="fas fa-plus"></i>
+      </div>
+    </ion-fab-button>
+  </ion-fab>
+  <div class="logo-section" *ngIf="list.length == 0">
+    <div>
+      <i class="far fa-comments"></i>
+      <span>Sin registros</span>
+    </div>
+  </div>
+  <app-notification (showEvent)="modal.modal=$event" [modal]="modal"></app-notification>
+</ion-content>

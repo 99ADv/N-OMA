@@ -1,0 +1,7 @@
+{
+  "name": "N-OMA",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

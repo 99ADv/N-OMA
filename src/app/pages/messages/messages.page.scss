@@ -1,0 +1,36 @@
+.title-chat {
+    width: 250px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0em;
+
+    span, strong {
+        width: 100%;
+
+        overflow: hidden;
+        text-overflow: initial;
+        white-space: nowrap;
+    }
+
+    span {
+        color: rgba(255, 255, 255, 0.775);
+    }
+}
+
+.header-page .options #btn-ticket {
+    width: 30px;
+    height: 30px;
+
+    color: white;
+    
+    margin-right: 20px;
+}
+
+.chat-messages {
+    img {
+        width: 300px;
+
+        margin: auto;
+    }
+}

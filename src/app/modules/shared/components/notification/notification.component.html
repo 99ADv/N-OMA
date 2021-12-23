@@ -1,0 +1,18 @@
+<div id="container" [class]="[modal.modal,top]">
+  <div [class]="modal.type_of_message" id="n-message">
+    <span>{{modal.message}}</span>
+    <button id="btn-message-close" (click)="showEvent.emit('hide')">
+      <i *ngIf="modal.type_of_message == 'alert'" class="fas fa-exclamation-triangle"></i>
+      <i *ngIf="modal.type_of_message == 'bug'" class="fas fa-bug"></i>
+      <i *ngIf="modal.type_of_message == 'error'" class="fas fa-exclamation-circle"></i>
+      <i *ngIf="modal.type_of_message == 'success'" class="fas fa-clipboard-check"></i>
+      <i *ngIf="modal.type_of_message == 'message'" class="fas fa-comment-alt"></i>
+    </button>
+  </div>
+  <div id="loading">
+    <div class="content">
+      <small>{{modal.message}}</small>
+      <div class="loader">Loading...</div>
+    </div>
+  </div>
+</div>

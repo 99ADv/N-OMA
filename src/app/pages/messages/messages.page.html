@@ -1,0 +1,63 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/chat">
+      </ion-back-button>
+    </ion-buttons>
+    <div class="header-page">
+      <div class="title-chat">
+        <strong>{{chat.data.agent}}</strong>
+        <span>{{chat.data.subject}}</span>
+      </div>
+      <div class="options">
+        <a [routerLink]="['/ticket', chat.data.ticketID]" *ngIf="chat.data.state == 1" id="btn-ticket">
+          <i class="fas fa-ticket-alt"></i>
+        </a>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="chat-content">
+    <div class="chat-messages">
+      <img *ngIf="chat.messages.length == 0" src="../../../assets/icon/chat.png">
+      <div [ngClass]="item.from == userLogin ? 'message-item-from' : 'message-item-to'" class="message-item" *ngFor="let item of chat.messages">
+        <div *ngIf="item.type == 1">
+          <span>{{item.body}}</span>
+        </div>
+        <a [href]="item.body" target="_blank" *ngIf="item.type == 2">
+          <i class="fas fa-external-link-alt"></i>
+          <span>{{item.body}}</span>
+        </a>
+        <div *ngIf="item.type == 3">
+          <i class="fas fa-file"></i>
+          <a [href]="url_api+item.path" target="_blank">{{item.body}}</a>
+        </div>
+        <a [href]="url_api+item.path" target="_blank" *ngIf="item.type == 4">
+          <img [src]="url_api+item.path">
+        </a>
+        <small>{{item.date}}</small>
+      </div>
+    </div>
+    <form  *ngIf="chat.data.state == 0" (ngSubmit)="Create()" [formGroup]="messageForm" class="form-chat">
+      <div class="input">
+        <input autocomplete="off" formControlName="body" name="body" id="body" placeholder="Escribe aqui tu mensaje" type="text">
+        <input (change)="OnFile($event)" style="display:none" #file type="file">
+        <button type="button" (click)="file.click()" class="btn-file"><i class="fas fa-paperclip"></i></button>
+      </div>
+      <button *ngIf="messageForm.valid" class="btn-send"><i class="fas fa-paper-plane"></i></button>
+    </form>
+    <div *ngIf="chat.data.state == 0" class="subject-modal" [class]="styleModalsubject">
+      <div class="subject-modal-content">
+        <form (ngSubmit)="OpenChat()" [formGroup]="chatForm">
+          <div class="form-control">
+            <textarea placeholder="Ecriba detallamente el asunto del chat"  formControlName="subject" name="subject" id="subject" cols="30" rows="3"></textarea>
+          </div>
+          <button class="btn-i" [disabled]="!chatForm.valid" id="call">Iniciar chat</button>
+        </form>
+      </div>
+    </div>
+  </div> 
+  <app-notification (showEvent)="modal.modal=$event" [modal]="modal"></app-notification>
+</ion-content>

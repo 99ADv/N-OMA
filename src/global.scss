@@ -1,0 +1,505 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "~@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "~@ionic/angular/css/normalize.css";
+@import "~@ionic/angular/css/structure.css";
+@import "~@ionic/angular/css/typography.css";
+@import "~@ionic/angular/css/display.css";
+
+/* Optional CSS utils that can be commented out */
+@import "~@ionic/angular/css/padding.css";
+@import "~@ionic/angular/css/float-elements.css";
+@import "~@ionic/angular/css/text-alignment.css";
+@import "~@ionic/angular/css/text-transformation.css";
+@import "~@ionic/angular/css/flex-utils.css";
+
+@mixin flexbox($direction, $content, $item, $gap) {
+    display: flex;
+    flex-direction: $direction;
+    justify-content: $content;
+    align-items: $item;
+    gap: $gap;
+}
+
+@mixin flexbox-gap($direction, $gap) {
+    display: flex;
+    flex-direction: $direction;
+    gap: $gap;
+}
+
+@mixin flexbox-center($content, $item) {
+    display: flex;
+    justify-content: $content;
+    align-items: $item;
+}
+
+* {
+    transition: all 0.3s;
+    box-sizing: border-box;
+}
+
+body {
+    font-size: 16px;
+    overflow: hidden;
+}
+
+input,
+textarea {
+    outline: none;
+    border: none;
+    background: transparent;
+    color: black;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-transition: "color 9999s ease-out, background-color 9999s ease-out";
+    -webkit-transition-delay: 9999s;
+}
+
+button {
+    background: transparent;
+    color: black;
+    outline: none;
+}
+
+a {
+    text-decoration: none;
+    outline: none;
+    color: black;
+}
+
+.rd-00A8E6 {
+    background: linear-gradient(135deg, #00a8e6, #00a9e679);
+}
+
+.rd-gray {
+    background: linear-gradient(135deg, rgba(247, 247, 247, 0.068), rgba(219, 219, 219, 0.137));
+}
+
+.btn-flot {
+    width: 100%;
+    height: 100%;
+
+    padding: 15px;
+
+    @include flexbox-center(center, center);
+
+    img {
+        width: 100%;
+    }
+}
+
+.header-page {
+    @include flexbox(row, space-between, center, 1em);
+
+    .options {
+        
+        button {
+            box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.384);
+        }
+    }
+}
+
+.list-title {
+    width: 100%;
+
+    color: rgba(0, 0, 0, 0.726);
+
+    margin-top: 20px;
+
+    padding: 0px 20px;
+    @include flexbox(row, flex-start, center, 1em);
+}
+
+.item-1 {
+    width: 100%;
+
+    > div,
+    > a,
+    > button {
+        width: 100%;
+
+        @include flexbox(row, flex-start, center, 0.5em);
+
+        i {
+            width: 35px;
+            min-width: 35px;
+            height: 35px;
+
+            color: #1363ad;
+
+            background: white;
+            border-radius: 100px;
+            border: 1px solid rgba(0, 0, 0, 0.322);
+            @include flexbox-center(center, center);
+        }
+
+        .active {
+            background: #00a8e6;
+            color: white;
+            border: none;
+        }
+
+        div {
+            width: 100%;
+
+            border-bottom: 1px solid rgba(0, 0, 0, 0.234);
+
+            padding: 10px 0px;
+            @include flexbox-gap(column, 0.2em);
+
+            span {
+                width: 100%;
+
+                font-size: 20px;
+                color: black;
+
+                overflow: hidden;
+                text-transform: initial;
+                white-space: nowrap;
+            }
+
+            small {
+                font-size: 17px;
+                color: rgba(0, 0, 0, 0.582);
+            }
+        }
+    }
+}
+
+.logo-section {
+    width: 100%;
+
+    padding: 10px;
+
+    div {
+        width: 100%;
+
+        color: black;
+
+        border-radius: 20px;
+
+        margin-top: 30px;
+
+        padding: 20px;
+        @include flexbox(column, center, center, 1em);
+
+        i {
+            color: rgba(0, 0, 0, 0.2);
+            font-size: 50px;
+        }
+    }
+}
+
+.item-2 {
+    width: 100%;
+
+    padding: 10px 20px;
+
+    > div,
+    a,
+    button {
+        width: 100%;
+
+        background: white;
+        box-shadow: 0px 5px 15px rgba(68, 68, 68, 0.261);
+        color: black;
+
+        border-radius: 10px;
+
+        padding: 10px;
+        @include flexbox-gap(column, 0em);
+    }
+}
+
+.item-chat {
+    width: 100%;
+
+    border-bottom: 1px solid rgba(0, 0, 0, 0.234);
+
+    padding: 15px 10px;
+    @include flexbox(row, space-between, center, 0.5em);
+
+    .item-data {
+        width: 100%;
+
+        @include flexbox-gap(column, 0.5em);
+
+        strong {
+            color: rgba(0, 0, 0, 0.816);
+            font-size: 20px;
+        }
+
+        span {
+            color: rgba(0, 0, 0, 0.57);
+        }
+    }
+
+    .item-info {
+        min-width: 60px;
+        @include flexbox(column, center, center, 0.5em);
+
+        .new_messages {
+            width: 25px;
+            height: 25px;
+
+            background: #00a8e6;
+            color: white;
+
+            border-radius: 100px;
+            @include flexbox-center(center, center);
+        }
+
+        .date {
+            color: rgba(0, 0, 0, 0.481);
+        }
+    }
+}
+
+.chat-content {
+    width: 100%;
+    height: 100%;
+
+    padding: 20px 0px;
+    @include flexbox(column, space-between, center, 0em);
+
+    .chat-messages {
+        width: 100%;
+        height: 100%;
+
+        position: relative;
+
+        padding: 10px;
+        overflow: auto;
+        padding: 0px 15px;
+        padding-bottom: 50px;
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+
+        .message-item {
+            max-width: 80%;
+
+            @include flexbox-gap(column, 0.5em);
+
+            > div,
+            > a,
+            > span,
+            > button {
+                max-width: 100%;
+
+                box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.076);
+                color: black;
+                font-size: 17px;
+
+                border-radius: 10px;
+
+                padding: 10px;
+                @include flexbox(row, flex-start, center, .5em);
+
+                i {
+                    color: #00a8e6;
+                }
+            }
+
+            small {
+                font-size: 14px;
+                color: rgba(0, 0, 0, 0.659);
+            }
+        }
+
+        .message-item-to {
+            align-self: flex-start;
+
+            > div,
+            > a,
+            > span,
+            > button {
+                background: linear-gradient(135deg, #b7d4df, #b7d4df5d);
+
+                border-bottom-left-radius: 0px;
+            }
+        }
+
+        .message-item-from {
+            align-self: flex-end;
+
+            > div,
+            > a,
+            > span,
+            > button {
+                background: linear-gradient(135deg, #f2f6f960, #F2F6F9);
+
+                border-bottom-right-radius: 0px;
+            }
+
+            small {
+                align-self: flex-end;
+            }
+        }
+    }
+
+    .form-chat {
+        width: 100%;
+        height: 50px;
+        min-height: 50px;
+
+        background: white;
+
+        position: fixed;
+        bottom: 0%;
+
+        padding: 5px;
+        @include flexbox(row, space-between, center, 0.5em);
+
+        .input {
+            width: 100%;
+            height: 100%;
+
+            background: rgba(0, 0, 0, 0.165);
+
+            border-radius: 100px;
+
+            @include flexbox(row, space-between, center, 0.5em);
+
+            input {
+                width: 100%;
+                height: 100%;
+
+                padding-left: 10px;
+            }
+        }
+
+        button {
+            width: 35px;
+            min-width: 35px;
+            height: 35px;
+
+            border-radius: 100px;
+
+            @include flexbox-center(center, center);
+
+            &:disabled {
+                background: #1363ad46;
+            }
+        }
+
+        .btn-send {
+            background: #1363ad;
+            color: white;
+        }
+    }
+}
+
+.subject-modal {
+    width: 100%;
+
+    background: rgba(0, 0, 0, 0.104);
+    backdrop-filter: blur(1px);
+
+    position: fixed;
+    left: 0%;
+
+    overflow: hidden;
+    @include flexbox-center(center, center);
+
+    .subject-modal-content {
+        background: white;
+        box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.234);
+
+        border-radius: 10px;
+
+        overflow: hidden;
+        padding: 10px;
+        @include flexbox(column, center, center, 1em);
+
+        form {
+            width: 100%;
+            @include flexbox(column, center, center, 1em);
+
+            textarea {
+                width: 100%;
+
+                background: rgba(226, 226, 226, 0.357);
+                box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.179);
+                color: black;
+
+                border: 1px solid rgba(0, 0, 0, 0.234);
+                border-radius: 10px;
+
+                padding: 10px;
+            }
+
+            > button {
+                width: 100px;
+                height: 50px;
+
+                background: #1363ad;
+                color: white;
+
+                border-radius: 10px;
+            }
+        }
+    }
+}
+
+.subject-modal-show {
+    height: 91.5%;
+
+    top: 8.5%;
+
+    padding: 20px;
+}
+
+.subject-modal-hide {
+    height: 0%;
+
+    top: -100%;
+
+    padding: 0px;
+}
+
+.list {
+    @include flexbox-gap(column, .5em);
+}
+
+.records-div {
+    width: 100%;
+
+    @include flexbox-gap(column, .5em);
+
+    .records-div-header {
+        width: 100%;
+
+        color: black;
+
+        padding: 0px 20px;
+        @include flexbox(row, center, center, 1em);
+
+        button {
+            width: 100%;
+            height: 40px;
+
+            font-size: 17px;
+
+            border-radius: 100px;
+
+            @include flexbox-center(center, center);
+        }
+    }
+}

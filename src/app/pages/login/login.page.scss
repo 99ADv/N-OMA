@@ -1,0 +1,128 @@
+@mixin flexbox($direction, $content, $item, $gap) {
+    display: flex;
+    flex-direction: $direction;
+    justify-content: $content;
+    align-items: $item;
+    gap: $gap;
+}
+
+@mixin flexbox-gap($direction, $gap) {
+    display: flex;
+    flex-direction: $direction;
+    gap: $gap;
+}
+
+@mixin flexbox-center($content, $item) {
+    display: flex;
+    justify-content: $content;
+    align-items: $item;
+}
+
+.login-form {
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    right: 0%;
+    margin: auto;
+    bottom: 0;
+    @include flexbox(column, center, center, 1em);
+
+    .logo {
+        max-width: 100%;
+    }
+
+    form {
+        width: 300px;
+        
+        background: white;
+        box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.152);
+
+        border-radius: 10px;
+
+        padding: 10px;
+        @include flexbox(column, center, center, 1em);
+
+        .form-control-i {
+            width: 100%;
+            height: 50px;
+
+            border: 1px solid rgba(0, 0, 0, 0.234);
+            border-radius: 5px;
+
+            padding: 5px 10px;
+            @include flexbox(row, space-between, center, .5em);
+
+            i {
+                color: #00A8E6;
+            }
+
+            input {
+                width: 100%;
+                height: 100%;
+            }
+        }
+
+        .btns-send {
+            width: 100%;
+            @include flexbox(column, center, center, 1em);
+            .btn-otrs {
+                background: linear-gradient(135deg, #1363AD, #1363adad);
+                color: white;
+                font-size: 18px;
+
+                border-radius: 100px;
+
+                padding: 7px 17px;
+            }
+        }
+
+        .btn-verify {
+            width: 50px;
+            height: 50px;
+
+            border: 0px solid #1363AD;
+            border-radius: 100px;
+
+            transition: all 1s;
+
+            &:disabled {
+                background: #1363ad21;
+            }
+        }
+
+        .login-btn-loading {
+            background: transparent;
+            color: transparent;
+            
+            border: 4px solid rgba(84, 84, 84, 0.056);
+            border-top-color: #1363AD;
+
+            animation: spinnerCircle  1s ease infinite;
+            i {
+                font-size: 0px;
+            }
+        }
+
+        @keyframes spinnerCircle {
+            0% {
+                transform: rotate(0deg);
+            }
+            
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .login-btn-event {
+            background: linear-gradient(135deg, #1363AD, #1363adad);
+            color: white;
+            
+            border: 0px solid rgba(84, 84, 84, 0.056);
+            border-top-color: transparent;
+
+            i {
+                font-size: 20px;
+            }
+        }
+    }
+}

@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home">
+      </ion-back-button>
+    </ion-buttons>
+    <div class="header-page">
+      <div class="title-chat">
+        Llamadas
+      </div>
+      <!-- <div class="options">
+        <button *ngIf="!styleList" (click)="styleList= true"><i class="fas fa-list-ul"></i></button>
+        <button *ngIf="styleList" (click)="styleList= false"><i class="fas fa-phone-alt"></i></button>
+      </div> -->
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="logo-section" *ngIf="list.length == 0">
+    <div>
+      <i class="fas fa-phone-alt"></i>
+      <span>No hay contactos para mostrar</span>
+    </div>
+  </div>
+  <ion-list>
+    <ng-container>
+      <div class="item-2" *ngFor="let item of list">
+        <button (click)="Create(item.id, item.number)">
+          <span class="name">{{item.name}}</span>
+          <span class="number">{{item.number}}</span>
+        </button>
+      </div>
+    </ng-container>
+    <!-- <div *ngIf="styleList" class="records-div">
+      <div class="records-div-header">
+        <button class="btn-outgoing"><span>Salientes</span></button>
+        <button class="btn-attended"><span>Atendidas</span></button>
+      </div>
+      <div class="records">
+        <div class="item-1" *ngFor="let item of records">
+          <div>
+            <div>
+              <span>{{item.tel_name}}</span>
+              <small>{{item.date}}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+  </ion-list>
+  <app-notification (showEvent)="modal.modal=$event" [modal]="modal"></app-notification>
+</ion-content>

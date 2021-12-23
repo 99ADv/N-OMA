@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home">
+      </ion-back-button>
+    </ion-buttons>
+    <div class="header-page">
+      <div class="title">
+        Nuevo caso
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+<form [formGroup]="form" (ngSubmit)="CreateTicket()">
+  <textarea formControlName="subject" placeholder="Asunto" name="subject" id="subject" cols="30" rows="3"></textarea>
+  <textarea formControlName="body" placeholder="Cuerpo del mensaje" name="body" id="body" cols="30" rows="10"></textarea>
+  <input (change)="OnFile($event)" #file style="display: none;" type="file">
+  <div class="btn-file-div">
+    <button class="btn-file" (click)="file.click()" type="button">
+      <i class="fas fa-paperclip"></i>
+    </button>
+    <span>{{attachedName}}</span>
+    <button class="btn-delete-file" *ngIf="attachedName != ''" (click)="CleanFile()"><i class="fas fa-times"></i></button>
+  </div>
+  <button [disabled]="!form.valid" class="btn-send"><i class="fas fa-paper-plane"></i></button>
+  <span class="text-footer">Este caso irá a la mesa de servicio para ser atendido.</span>
+</form>
+<app-notification (showEvent)="modal.modal=$event" [modal]="modal"></app-notification>
+</ion-content>

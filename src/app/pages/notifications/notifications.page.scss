@@ -1,0 +1,39 @@
+.item {
+    width: 100%;
+
+    padding: 10px;
+    
+    > div {
+        width: 100%;
+
+        background: rgba(218, 218, 218, 0.145);
+        box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.193);
+        color: black;
+
+        border-radius: 15px;
+        border-bottom-right-radius: 0px;
+
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        
+        strong {
+            color: #1363AD;
+            font-size: 20px;
+        }
+
+        span {
+            color: rgba(0, 0, 0, 0.85);
+            font-size: 20px;
+
+            margin-top: 20px;
+        }
+
+        small {
+            color: rgba(0, 0, 0, 0.549);
+            font-size: 15px;
+
+            align-self: flex-end;
+        }
+    }
+}

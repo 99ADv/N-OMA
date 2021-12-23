@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/history">
+      </ion-back-button>
+    </ion-buttons>
+    <div class="header-page">
+      <div class="title">
+        Ticket
+        <strong># {{ticket.TicketNumber}}</strong>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div id="container">
+    <strong class="state">{{ticket.State}}</strong>
+    <div class="item">
+      <span class="label">Asunto:</span>
+      <span class="value">{{ticket.Title}}</span>
+    </div>
+    <span class="date">{{ticket.Created | date: "d/M/yyyy h:mm a"}}</span>
+    <a target="_blank" href="http://161.35.62.68/otrs/customer">Ver más detalles</a>
+    <div class="body">
+      <span>Hisorial de conversasión</span>
+      <div [innerHTML]="item.Body" [ngClass]="item.SenderTypeID == 1 ? 'item-customer' : 'item-agent'" *ngFor="let item of ticket.Article">
+  
+        </div>
+    </div>
+  </div>
+  <app-notification (showEvent)="modal.modal=$event" [modal]="modal"></app-notification>
+</ion-content>

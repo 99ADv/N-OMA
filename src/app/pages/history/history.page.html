@@ -1,0 +1,86 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home">
+      </ion-back-button>
+    </ion-buttons>
+    <div class="header-page">
+      <div class="title">
+        Historial
+      </div>
+      <div class="options" [class]="styleFilter">
+        <button class="btn-filter">
+          <i (click)="styleFilter = 'filter-show'" class="fas fa-filter"></i>
+          <i (click)="styleFilter = 'filter-hide'" class="fas fa-times"></i>
+        </button>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="logo-section" *ngIf="list.length == 0">
+    <div>
+      <i class="fas fa-history"></i>
+      <span>Historial vacio</span>
+    </div>
+  </div>
+  <div id="container" [class]="styleFilter">
+    <div id="filter">
+      <button [class]="type == 0 ? 'active' : ''" (click)="type = 0; styleFilter = 'filter-hide'; Get(); indication = ''">
+        <span>Mostrar todo</span>
+      </button>
+      <button [class]="type == 1 ? 'active' : ''" (click)="type = 1; styleFilter = 'filter-hide'; Get()">
+        <i class="fas fa-ticket-alt"></i>
+        <span>Caso</span>
+      </button>
+      <button [class]="type == 2 ? 'active' : ''" (click)="type = 2; styleFilter = 'filter-hide'; Get()">
+        <i class="far fa-comments"></i>
+        <span>Chat</span>
+      </button>
+      <button [class]="type == 4 ? 'active' : ''" (click)="type = 3; styleFilter = 'filter-hide'; Get()">
+        <i class="fas fa-phone-alt"></i>
+        <span>Telefonico</span>
+      </button>
+    </div>
+    <form (ngSubmit)="Get()" id="filter-input">
+      <input autocomplete="off" [(ngModel)]="indication" placeholder="Asunto o fecha" name="indication" id="indicatio" type="text">
+      <button><i class="fas fa-search"></i></button>
+    </form>
+    <ion-list>
+      <div class="item-1" *ngFor="let item of list">
+        <a [routerLink]="['/ticket', item.id]" *ngIf="item.type == 1 || item.type == 22 || item.type == 44">
+          <i *ngIf="item.type == 1" class="fas fa-ticket-alt"></i>
+          <i *ngIf="item.type == 22" class="far fa-comments active"></i>
+          <i *ngIf="item.type == 44" class="fas fa-phone-alt active"></i>
+          <div>
+            <span>{{item.title}}</span>
+            <small>{{item.date}}</small>
+          </div>
+        </a>
+        <a [routerLink]="['/chat', item.id]" *ngIf="item.type == 2">
+          <i class="far fa-comments"></i>
+          <div>
+            <span>{{item.title}}</span>
+            <small>{{item.date}}</small>
+          </div>
+        </a>
+        <div *ngIf="item.type == 3">
+          <i class="fas fa-envelope"></i>
+          <div>
+            <span>{{item.title}}</span>
+            <small>{{item.date}}</small>
+          </div>
+        </div>
+        <div *ngIf="item.type == 4">
+          <i class="fas fa-phone-alt"></i>
+          <div>
+            <span>{{item.title}}</span>
+            <small>{{item.date}}</small>
+          </div>
+        </div>
+      </div>
+    </ion-list>
+  </div>
+  <app-notification [top]="'top-1'" (showEvent)="Notify($event, '', '', false)" [modal]="modal"></app-notification>
+</ion-content>

@@ -1,0 +1,77 @@
+@mixin flexbox($direction, $content, $item, $gap) {
+    display: flex;
+    flex-direction: $direction;
+    justify-content: $content;
+    align-items: $item;
+    gap: $gap;
+}
+
+@mixin flexbox-gap($direction, $gap) {
+    display: flex;
+    flex-direction: $direction;
+    gap: $gap;
+}
+
+@mixin flexbox-center($content, $item) {
+    display: flex;
+    justify-content: $content;
+    align-items: $item;
+}
+
+#container {
+    width: 100%;
+    color: black;
+    padding: 20px;
+    @include flexbox-gap(column, 1em);
+    .item {
+        @include flexbox-gap(column, .2em);
+        .label {
+            font-size: 20px;
+            color: rgba(0, 0, 0, 0.712);
+        }
+        .value {
+            font-size: 25px;
+        }
+    }
+    .number {
+        font-size: 30px;
+        color: #00A8E6;
+    }
+    .state {
+        color: #FF6B00;
+        font-size: 20px;
+        box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.158);
+        padding: 10px;
+    }
+    .date {
+        font-size: 15px;
+        color: rgba(0, 0, 0, 0.555)
+    }
+    >a {
+        color: #00A8E6;
+    }
+    .body {
+        border-top: 1px solid rgba(0, 0, 0, 0.329);
+        margin-top: 10px;
+        padding-top: 10px;
+        @include flexbox-gap(column, 1em);
+        >span {
+            color: rgba(0, 0, 0, 0.459);
+        }
+        div {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.178);
+            padding: 10px;
+            font-size: 20px;
+        }
+        .item-customer {
+            border-top-left-radius: 0px;
+            background: rgba(255, 255, 255, 0.836);
+        }
+        .item-agent {
+            border-top-right-radius: 0px;
+            background: rgba(172, 172, 172, 0.075);
+        }
+    }
+}

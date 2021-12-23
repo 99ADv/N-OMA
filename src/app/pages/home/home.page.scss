@@ -1,0 +1,239 @@
+@mixin flexbox($direction, $content, $item, $gap) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $content;
+  align-items: $item;
+  gap: $gap;
+}
+
+@mixin flexbox-gap($direction, $gap) {
+  display: flex;
+  flex-direction: $direction;
+  gap: $gap;
+}
+
+@mixin flexbox-center($content, $item) {
+  display: flex;
+  justify-content: $content;
+  align-items: $item;
+}
+
+#header {
+  width: 100%;
+  @include flexbox-center(space-between, center);
+
+  #logo {
+    width: 150px;
+    margin-left: 10px;
+  }
+
+  #btn-sing-out {
+    width: 40px;
+    height: 40px;
+
+    background: #3b3b3b;
+    color: white;
+    font-size: 16px;
+
+    border-bottom-left-radius: 10px;
+  }
+}
+
+#container {
+  width: 100%;
+
+  margin: auto;
+
+  padding: 20px;
+  @include flexbox(column, center, center, 1em);
+}
+
+#data {
+  width: 100%;
+
+  @include flexbox(column, center, center, 1em);
+
+  > strong {
+    color: #1363ad;
+    font-size: 25px;
+  }
+
+  > #amount {
+    width: 100%;
+
+    @include flexbox(row, center, center, 1em);
+
+    .item {
+      background: linear-gradient(135deg, rgba(247, 247, 247, 0.068), rgba(219, 219, 219, 0.137));
+      border-radius: 100px;
+      box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.11);
+
+      padding: 5px 10px;
+      @include flexbox(row, center, center, 0.5em);
+
+      span {
+        color: black;
+      }
+
+      small {
+        min-width: 30px;
+        height: 30px;
+
+        color: white;
+
+        border-radius: 100px;
+
+        @include flexbox-center(center, center);
+      }
+    }
+
+    #incmoming small {
+      background: #7ec2e0;
+    }
+
+    #resolved small {
+      background: #0072bc;
+    }
+  }
+}
+
+#options {
+  width: 100%;
+
+  margin-top: 30px;
+  @include flexbox(row, space-between, center, 1em);
+
+  button,
+  a {
+    width: 40px;
+    height: 40px;
+
+    border-radius: 100px;
+    @include flexbox-center(center, center);
+  }
+
+  .others {
+    @include flexbox(row, flex-end, center, 1em);
+
+    .btn-notificaction {
+      box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.144);
+      position: relative;
+
+      i {
+        color: #3b3b3b;
+        font-size: 20px;
+      }
+
+      small {
+        background: #1363ad;
+
+        width: 12px;
+        height: 12px;
+
+        border-radius: 100px;
+
+        position: absolute;
+        top: 1px;
+        right: 1px;
+      }
+    }
+
+    .btn-history {
+      color: white;
+      font-size: 17px;
+    }
+  }
+}
+
+#nav {
+  width: 100%;
+
+  @include flexbox-gap(column, 0.5em);
+
+  #nav-title {
+    color: rgba(0, 0, 0, 0.521);
+    font-size: 15px;
+  }
+
+  #nav-list {
+    @include flexbox(row, center, flex-start, 1em);
+    flex-wrap: wrap;
+
+    .item {
+      width: 150px;
+      min-width: 150px;
+      height: 100px;
+
+      background: linear-gradient(135deg, #0072bc, #0071bc9a);
+      box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.39);
+
+      border-radius: 5px;
+
+      position: relative;
+
+      padding: 10px;
+      @include flexbox(column, space-between, center, 0.5em);
+
+      i {
+        color: rgba(255, 255, 255, 0.144);
+        font-size: 25px;
+
+        align-self: flex-start;
+      }
+
+      span {
+        color: white;
+        font-size: 24px;
+      }
+
+      .amount {
+        width: 100%;
+
+        @include flexbox(row, center, space-between, 1em);
+
+        small {
+          max-width: 50%;
+
+          border-radius: 3px;
+
+          padding: 5px;
+          @include flexbox-center(center, center);
+        }
+
+        .incoming {
+          background: white;
+          box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.185);
+        }
+
+        .closed {
+          background: rgba(247, 247, 247, 0.5);
+          color: rgba(0, 0, 0, 0.452);
+        }
+      }
+    }
+  }
+}
+
+.footer-home {
+  width: 100%;
+
+  padding: 20px;
+  @include flexbox-center(center, center);
+
+  .img-home {
+    max-width: 80%;
+
+    margin: auto;
+  }
+}
+
+@media screen and (max-width: 358px) {
+  #nav {
+    #nav-list {
+      .item {
+        width: 100%;
+        height: auto;
+      }
+    }
+  }
+}

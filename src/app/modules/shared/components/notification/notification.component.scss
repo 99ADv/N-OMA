@@ -1,0 +1,249 @@
+@mixin flexbox($direction, $content, $item, $gap) {
+    display: flex;
+    flex-direction: $direction;
+    justify-content: $content;
+    align-items: $item;
+    gap: $gap;
+}
+
+@mixin flexbox-gap($direction, $gap) {
+    display: flex;
+    flex-direction: $direction;
+    gap: $gap;
+}
+
+@mixin flexbox-center($content, $item) {
+    display: flex;
+    justify-content: $content;
+    align-items: $item;
+}
+
+#container {
+    width: 100%;
+
+    position: fixed;
+    left: 0%;
+    z-index: 20;
+
+    > div {
+        width: 100%;
+
+        position: absolute;
+        top: 0%;
+        left: 0%;
+
+        overflow: hidden;
+    }
+
+    .alert {
+        background: #f0f0f0;
+        color: black;
+
+        #btn-message-close > i {
+            color: #ff6b00;
+        }
+    }
+
+    .bug {
+        background: #f0f0f0;
+        color: black;
+
+        #btn-message-close i {
+            color: red;
+        }
+    }
+
+    .error {
+        background: #f0f0f0;
+        color: black;
+    }
+
+    .success {
+        background: #00a8e6;
+        color: white;
+
+        #btn-message-close i {
+            color: white;
+        }
+    }
+
+    .message {
+        background: #00a8e6;
+        color: white;
+
+        #btn-message-close i {
+            color: #ffc925;
+        }
+    }
+}
+
+#n-message {
+    width: 100%;
+
+    @include flexbox(row, space-between, center, 0.5em);
+
+    span {
+        font-size: 18px;
+    }
+
+    button {
+        width: 35px;
+        min-width: 35px;
+        height: 35px;
+        min-height: 35px;
+
+        background: white;
+        border-radius: 100px;
+
+        padding: 0%;
+        @include flexbox-center(center, center);
+
+        i {
+            font-size: 11px;
+        }
+    }
+}
+
+#loading {
+    background: rgba(0, 0, 0, 0.103);
+    backdrop-filter: blur(5px);
+
+    @include flexbox(column, center, center, 1em);
+
+    .content {
+        background: rgba(255, 255, 255, 0.664);
+        
+        box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.205);
+        border-radius: 10px;
+        
+        padding: 10px 20px;
+        padding-bottom: 50px;
+
+        @include flexbox(column, center, center, 0.5em);
+
+        small {
+            color: black;
+            font-size: 20px;
+        }
+
+        .loader,
+        .loader:before,
+        .loader:after {
+            border-radius: 50%;
+            width: 2em;
+            height: 2em;
+            -webkit-animation-fill-mode: both;
+            animation-fill-mode: both;
+            -webkit-animation: load7 1.8s infinite ease-in-out;
+            animation: load7 1.8s infinite ease-in-out;
+        }
+        .loader {
+            color: #00a8e6;
+            font-size: 10px;
+            position: relative;
+            text-indent: -9999em;
+            -webkit-transform: translateZ(0);
+            -ms-transform: translateZ(0);
+            transform: translateZ(0);
+            -webkit-animation-delay: -0.16s;
+            animation-delay: -0.16s;
+        }
+        .loader:before,
+        .loader:after {
+            content: "";
+            position: absolute;
+            top: 0;
+        }
+        .loader:before {
+            left: -3.5em;
+            -webkit-animation-delay: -0.32s;
+            animation-delay: -0.32s;
+        }
+        .loader:after {
+            left: 3.5em;
+        }
+        @-webkit-keyframes load7 {
+            0%,
+            80%,
+            100% {
+                box-shadow: 0 2.5em 0 -1.3em;
+            }
+            40% {
+                box-shadow: 0 2.5em 0 0;
+            }
+        }
+        @keyframes load7 {
+            0%,
+            80%,
+            100% {
+                box-shadow: 0 2.5em 0 -1.3em;
+            }
+            40% {
+                box-shadow: 0 2.5em 0 0;
+            }
+        }
+    }
+}
+
+.show-loading {
+    top: 0%;
+}
+
+.show-message {
+    top: 8.5%;
+}
+
+.show-message {
+    #n-message {
+        height: auto;
+
+        opacity: 100%;
+        box-shadow: 0px 15px 10px rgba(0, 0, 0, 0.199);
+
+        padding: 10px 20px;
+    }
+
+    #loading {
+        height: 0px;
+
+        opacity: 0%;
+    }
+}
+
+.show-loading {
+    height: 100%;
+
+    #n-message {
+        height: 0px;
+
+        box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.199);
+
+        padding: 0px;
+    }
+
+    #loading {
+        height: 100%;
+
+        opacity: 100%;
+    }
+}
+
+.hide {
+    height: 0%;
+
+    top: -100%;
+
+    #n-message {
+        height: 0px;
+
+        box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.199);
+
+        padding: 0px;
+    }
+
+    #loading {
+        height: 0%;
+
+        opacity: 0%;
+    }
+}
