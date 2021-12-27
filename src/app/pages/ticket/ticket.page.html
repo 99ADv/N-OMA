@@ -24,9 +24,9 @@
     <a target="_blank" href="http://161.35.62.68/otrs/customer">Ver más detalles</a>
     <div class="body">
       <span>Hisorial de conversasión</span>
-      <div [innerHTML]="item.Body" [ngClass]="item.SenderTypeID == 1 ? 'item-customer' : 'item-agent'" *ngFor="let item of ticket.Article">
-  
-        </div>
+      <div [innerHTML]="item.Body" [ngClass]="item.SenderTypeID == 1 ? 'item-customer' : 'item-agent'"
+        *ngFor="let item of ticket.Article">
+      </div>
     </div>
   </div>
   <app-notification (showEvent)="modal.modal=$event" [modal]="modal"></app-notification>

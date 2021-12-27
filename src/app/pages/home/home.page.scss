@@ -162,7 +162,7 @@
     .item {
       width: 150px;
       min-width: 150px;
-      height: 100px;
+      min-height: 110px;
 
       background: linear-gradient(135deg, #0072bc, #0071bc9a);
       box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.39);
@@ -183,7 +183,7 @@
 
       span {
         color: white;
-        font-size: 24px;
+        font-size: 20px;
       }
 
       .amount {
@@ -232,8 +232,21 @@
     #nav-list {
       .item {
         width: 100%;
-        height: auto;
       }
     }
   }
+}
+
+.chatBell {
+  width: 15px;
+  height: 15px;
+
+  background: #FFC925;
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.392);
+
+  border-radius: 100px;
+
+  position: absolute;
+  top: 5px;
+  right: 5px;
 }

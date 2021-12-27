@@ -4,7 +4,7 @@
     <form [formGroup]="loginForm" (ngSubmit)="Verify(1)">
       <div class="form-control-i">
         <i class="fas fa-user"></i>
-        <input formControlName="userLogin" name="userLogin" id="userLogin" type="text" placeholder="Nombre de usuario">
+        <input autocomplete="off" formControlName="userLogin" name="userLogin" id="userLogin" type="text" placeholder="Nombre de usuario">
       </div>
       <div class="form-control-i">
         <i class="fas fa-key"></i>
@@ -12,10 +12,8 @@
       </div>
       <div class="btns-send">
         <button [disabled]="!loginForm.valid || loginButtonStyle == 'login-btn-loading'" [class]="loginButtonStyle" class="btn-verify"><i class="fas fa-sign-in-alt"></i></button>
-        <!-- <button (click)="Verify(2)" class="btn-otrs" type="button"><small>Iniciar con OTRS</small></button> -->
       </div>
     </form>
-    <!-- <img class="logo" src="../../assets/icon/login.png"> -->
     <app-footer></app-footer>
   </div>
   <app-notification (showEvent)="modal.modal=$event" [modal]="modal"></app-notification>

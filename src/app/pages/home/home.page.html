@@ -36,32 +36,31 @@
           <i class="fas fa-ticket-alt"></i>
           <span>Nuevo caso</span>
           <div class="amount">
-            <!-- <small *ngIf="abstract.service.incoming != 0" class="incoming">{{abstract.service.incoming}}</small>
-            <small *ngIf="abstract.service.resolved != 0" class="closed">{{abstract.service.resolved}}</small> -->
+            <small *ngIf="abstract.service.incoming != 0" class="incoming">{{abstract.service.incoming}}</small>
+            <small *ngIf="abstract.service.resolved != 0" class="closed">{{abstract.service.resolved}}</small>
           </div>
         </a>
         <a class="item"  [routerLink]="['/chat']">
           <i class="far fa-comments"></i>
           <span>Chat</span>
           <div class="amount">
-            <!-- <small *ngIf="abstract.chat.incoming != 0" class="incoming">{{abstract.chat.incoming}}</small>
-            <small *ngIf="abstract.chat.resolved != 0" class="closed">{{abstract.chat.resolved}}</small> -->
+            <small *ngIf="abstract.chat.incoming != 0" class="incoming">{{abstract.chat.incoming}}</small>
+            <small *ngIf="abstract.chat.resolved != 0" class="closed">{{abstract.chat.resolved}}</small>
           </div>
+          <small *ngIf="chatBell" class="chatBell"></small>
         </a>
         <a class="item" href="mailto:otrs.testing.imap@gmail.com">
           <i class="fas fa-envelope"></i>
           <span>Correo</span>
           <div class="amount">
-            <!-- <small *ngIf="abstract.email.incoming != 0" class="incoming">{{abstract.email.incoming}}</small>
-            <small *ngIf="abstract.email.resolved != 0" class="closed">{{abstract.email.resolved}}</small> -->
           </div>
         </a>
         <a class="item" [routerLink]="['/call']">
           <i class="fas fa-phone-alt"></i>
           <span>Telefónico</span>
           <div class="amount">
-            <!-- <small *ngIf="abstract.tel.incoming != 0" class="incoming">{{abstract.tel.incoming}}</small>
-            <small *ngIf="abstract.tel.resolved != 0" class="closed">{{abstract.tel.resolved}}</small> -->
+            <small *ngIf="abstract.tel.incoming != 0" class="incoming">{{abstract.tel.incoming}}</small>
+            <small *ngIf="abstract.tel.resolved != 0" class="closed">{{abstract.tel.resolved}}</small>
           </div>
         </a>
       </div>

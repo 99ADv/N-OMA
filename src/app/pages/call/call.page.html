@@ -8,23 +8,24 @@
       <div class="title-chat">
         Llamadas
       </div>
-      <!-- <div class="options">
-        <button *ngIf="!styleList" (click)="styleList= true"><i class="fas fa-list-ul"></i></button>
+      <div class="options">
+        <button *ngIf="!styleList" (click)="styleList= true; GetCall()"><i class="fas fa-list-ul"></i></button>
         <button *ngIf="styleList" (click)="styleList= false"><i class="fas fa-phone-alt"></i></button>
-      </div> -->
+      </div>
     </div>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <div class="logo-section" *ngIf="list.length == 0">
+  <div class="logo-section" *ngIf="list.length == 0 && !styleList">
     <div>
       <i class="fas fa-phone-alt"></i>
       <span>No hay contactos para mostrar</span>
     </div>
   </div>
   <ion-list>
-    <ng-container>
+    <ng-container *ngIf="list.length > 0 && !styleList">
+      <small class="title" >Contactos:</small>
       <div class="item-2" *ngFor="let item of list">
         <button (click)="Create(item.id, item.number)">
           <span class="name">{{item.name}}</span>
@@ -32,22 +33,24 @@
         </button>
       </div>
     </ng-container>
-    <!-- <div *ngIf="styleList" class="records-div">
-      <div class="records-div-header">
-        <button class="btn-outgoing"><span>Salientes</span></button>
-        <button class="btn-attended"><span>Atendidas</span></button>
-      </div>
+    <div *ngIf="styleList" class="records-div">
+      <form (ngSubmit)="GetCall()" class="filter-input">
+        <input autocomplete="off" [(ngModel)]="indication" placeholder="Asunto o fecha" name="indication" id="indicatio" type="text">
+        <button><i class="fas fa-search"></i></button>
+      </form>
       <div class="records">
         <div class="item-1" *ngFor="let item of records">
           <div>
+            <i *ngIf="item.type == 44" class="fas fa-phone-alt active"></i>
+            <i *ngIf="item.type == 4" class="fas fa-phone-alt"></i>
             <div>
-              <span>{{item.tel_name}}</span>
+              <span>{{item.telName}}</span>
               <small>{{item.date}}</small>
             </div>
           </div>
         </div>
       </div>
-    </div> -->
+    </div>
   </ion-list>
   <app-notification (showEvent)="modal.modal=$event" [modal]="modal"></app-notification>
 </ion-content>

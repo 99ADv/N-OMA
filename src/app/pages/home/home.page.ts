@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { TicketService } from 'src/app/core/services/ticket/ticket.service';
 import { HelpersDevService } from 'src/app/core/services/helperDev/helper-dev.service';
 import { UserService } from 'src/app/core/services/user/user.service';
+import { ChatService } from 'src/app/core/services/chat/chat.service';
 //#endregion
 
 //#region Interface
@@ -30,12 +31,12 @@ import { Socket } from 'ngx-socket-io';
 })
 
 export class HomePage {
-
   //#region Variables
   notfyTimeout: any = null;
-  
+
   //#region DOM
   bell: boolean = false;
+  chatBell: boolean = true;
   //#endregion
 
   //#endregion
@@ -78,17 +79,28 @@ export class HomePage {
   //#region Index
   constructor(
     private router: Router,
-    private ticketService:TicketService,
+    private ticketService: TicketService,
     private helperDev: HelpersDevService,
     private userSerivce: UserService,
-    private socket: Socket
-  ) {}
+    private socket: Socket,
+    private chatService: ChatService
+  ) { }
 
   //#region life cycle
   async ionViewWillEnter() {
-    this.user = JSON.parse((await Storage.get({key: 'user'})).value);
-    this.userSerivce.token = JSON.parse((await Storage.get({key: TOKEN_KEY})).value);
+    this.user = JSON.parse((await Storage.get({ key: 'user' })).value);
+    this.userSerivce.token = JSON.parse((await Storage.get({ key: TOKEN_KEY })).value);
+    let notoficatioPoint = await Storage.get({ key: 'notification' });
+    let chatPoint = await Storage.get({ key: 'chat' });
+
+    if (notoficatioPoint && notoficatioPoint.value == 'true') this.bell = true;
+    else this.bell = false;
+
+    if (chatPoint && chatPoint.value == 'true') this.chatBell = true;
+    else this.chatBell = false;
+
     this.GetAbstract();
+    this.GetMessages(false);
   }
 
   async ngOnInit() {
@@ -101,11 +113,13 @@ export class HomePage {
     // )
 
     this.socket.fromEvent('notification').subscribe(
-      (result: any) => {
+      async (result: any) => {
+        await Storage.remove({ key: 'notification' });
         this.bell = false;
         if ((result.permissions == '2' || result.permissions == '0') && result.show == '1') {
           const audio = new Audio('../../../../assets/audio/timbre1.mp3')
-            audio.play();
+          audio.play();
+          await Storage.set({ key: 'notification', value: 'true' });
           this.bell = true;
           this.Notify('show-message', 'message', result.message, false)
         }
@@ -118,6 +132,14 @@ export class HomePage {
     //     // this.GetAbstract();
     //   }
     // )
+
+    this.socket.fromEvent('message').subscribe(
+      (result: any) => {
+        if (this.user.login == result.to) {
+          this.GetMessages(true);
+        }
+      }
+    )
   }
   //#endregion
 
@@ -125,26 +147,51 @@ export class HomePage {
 
   //#region API
   GetAbstract() {
-    this.ticketService.GetAbstract({userLogin: this.user.login}).subscribe(
+    this.Notify('show-loading', 'Cargando contendido', '', false)
+    this.ticketService.GetAbstract({ userLogin: this.user.login }).subscribe(
       (result: any) => {
         let interpretResponse = this.helperDev.InterpretResponse(result);
-        if(interpretResponse.status == false) {
+        if (interpretResponse.status == false) {
           this.Notify('show-message', 'bug', 'Error interno.', true)
           return false;
         }
-        this.Notify('hide', '', '', false);
+        this.Notify('hide', '', '', false)
         this.abstract = result.result;
       }
       ,
-      error => this.Notify('show-message', 'bug', '(404) Error interno.', false)
+      error => this.Notify('show-message', 'bug', '(404) Error interno.', true)
+    )
+  }
+
+  GetMessages(sw: boolean) {
+    this.chatService.GetNewMessages({ fromPage: '1' }).subscribe(
+      async (result: any) => {
+        let interpretResponse = this.helperDev.InterpretResponse(result);
+        if (interpretResponse.status == false) {
+          this.Notify('show-message', 'bug', 'Error interno.', true)
+          return;
+        }
+        const chats = result.result.new_messages;
+        await Storage.remove({ key: 'chat' });
+        this.chatBell = false;
+        if (chats > 0) {
+          await Storage.set({ key: 'chat', value: 'true' });
+          this.chatBell = true;
+          if (sw) {
+            const audio = new Audio('../../../../assets/audio/timbre2.mp3')
+            audio.play();
+          }
+        }
+      },
+      error => this.Notify('show-message', 'bug', '(404) Error interno.', true)
     )
   }
   //#endregion
 
   //#region Event
   async SingOut() {
-    await Storage.remove({key: TOKEN_KEY});
-    await Storage.remove({key: 'user'});
+    await Storage.remove({ key: TOKEN_KEY });
+    await Storage.remove({ key: 'user' });
     this.router.navigate(['/login']);
   }
   //#endregion
@@ -155,7 +202,7 @@ export class HomePage {
     this.modal.type_of_message = messageType;
     this.modal.message = message;
     if (setTimeout_vr) {
-      if(this.notfyTimeout) clearTimeout(this.notfyTimeout);
+      if (this.notfyTimeout) clearTimeout(this.notfyTimeout);
       this.notfyTimeout = setTimeout(() => {
         this.Notify('hide', '', '', false);
       }, 5000);

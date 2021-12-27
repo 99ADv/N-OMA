@@ -111,6 +111,7 @@
     @include flexbox(column, center, center, 1em);
 
     .content {
+        min-width: 150px;
         background: rgba(255, 255, 255, 0.664);
         
         box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.205);
@@ -185,10 +186,6 @@
     }
 }
 
-.show-loading {
-    top: 0%;
-}
-
 .show-message {
     top: 8.5%;
 }
@@ -212,6 +209,8 @@
 
 .show-loading {
     height: 100%;
+    
+    top: 0%;
 
     #n-message {
         height: 0px;

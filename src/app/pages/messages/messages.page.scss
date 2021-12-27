@@ -5,7 +5,8 @@
     flex-direction: column;
     gap: 0em;
 
-    span, strong {
+    span,
+    strong {
         width: 100%;
 
         overflow: hidden;
@@ -23,14 +24,62 @@
     height: 30px;
 
     color: white;
-    
+
     margin-right: 20px;
 }
 
 .chat-messages {
+    overflow-y: scroll;
     img {
         width: 300px;
 
         margin: auto;
     }
+}
+
+.message-loafing {
+    height: 100%;
+
+    background: rgba(0, 0, 0, 0.083);
+    
+    position: absolute;
+    top: 0%;
+    right: 0%;
+    
+    overflow: hidden;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    .spinner {
+        border: 4px solid rgba(0, 0, 0, 0.1);
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border-left-color: #09f;
+    
+        animation: spin 1s ease infinite;
+    }
+    
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+    
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+}
+
+.ml-show {
+    width: 100%;
+
+    padding: 0% 8px;
+}
+
+.ml-hide {
+    width: 0%;
+
+    padding: 0%;
 }

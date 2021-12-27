@@ -20,7 +20,7 @@
 
 <ion-content>
   <div class="chat-content">
-    <div class="chat-messages">
+    <div id="chat-messages" class="chat-messages">
       <img *ngIf="chat.messages.length == 0" src="../../../assets/icon/chat.png">
       <div [ngClass]="item.from == userLogin ? 'message-item-from' : 'message-item-to'" class="message-item" *ngFor="let item of chat.messages">
         <div *ngIf="item.type == 1">
@@ -41,6 +41,9 @@
       </div>
     </div>
     <form  *ngIf="chat.data.state == 0" (ngSubmit)="Create()" [formGroup]="messageForm" class="form-chat">
+      <div class="message-loafing" [class]="loadingMessage">
+        <div class="spinner"></div>
+      </div>
       <div class="input">
         <input autocomplete="off" formControlName="body" name="body" id="body" placeholder="Escribe aqui tu mensaje" type="text">
         <input (change)="OnFile($event)" style="display:none" #file type="file">

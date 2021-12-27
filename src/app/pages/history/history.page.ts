@@ -16,7 +16,10 @@ import { UserService } from 'src/app/core/services/user/user.service';
 import { notification } from 'src/app/interface/others';
 //#endregion
 
+//#region Others
 import * as moment from 'moment';
+import { Socket } from 'ngx-socket-io';
+//#endregion
 
 //#region Variables
 import { TOKEN_KEY } from 'src/app/core/guards/autoLogin/auto-login.guard';
@@ -33,28 +36,9 @@ export class HistoryPage implements OnInit {
   type: number = 0;
   notfyTimeout: any = null;
   indication: string = '';
-  
+
   //#region DOM
   styleFilter: string = 'filter-hide';
-  //#endregion
-
-  //#endregion
-
-  //#region Index
-  constructor(
-    private ticketService: TicketService,
-    private helperDev: HelpersDevService,
-    private userService: UserService,
-  ) { }
-
-  //#region Live cycle
-  ngOnInit() {
-  }
-
-  async ionViewWillEnter() {
-    this.userService.token = JSON.parse((await Storage.get({key: TOKEN_KEY})).value);
-    this.Get();
-  }
   //#endregion
 
   //#endregion
@@ -65,18 +49,54 @@ export class HistoryPage implements OnInit {
     type_of_message: '',
     message: ''
   }
+  user: any = {};
   //#endregion
 
   //#region List
   list: any = [];
   //#endregion
 
+  //#region Index
+  constructor(
+    private ticketService: TicketService,
+    private helperDev: HelpersDevService,
+    private userService: UserService,
+    private socket: Socket,
+  ) { }
+
+  //#region Live cycle
+  ngOnInit() {
+    this.socket.fromEvent('ticket_closed').subscribe(
+      (result: any) => {
+        if (this.user.login == result.to) {
+          this.Get();
+        }
+      }
+    )
+
+    this.socket.fromEvent('call_log').subscribe(
+      (result: any) => {
+        if (result == this.user.login)
+          this.Get();
+      }
+    )
+  }
+
+  async ionViewWillEnter() {
+    this.userService.token = JSON.parse((await Storage.get({ key: TOKEN_KEY })).value);
+    this.user = JSON.parse((await Storage.get({ key: 'user' })).value);
+    this.Get();
+  }
+  //#endregion
+
+  //#endregion
+
   //#region API
   async Get() {
-    let user = JSON.parse((await Storage.get({key: 'user'})).value);
-    
+    let user = JSON.parse((await Storage.get({ key: 'user' })).value);
+
     this.Notify('show-loading', '', 'Cargando lista', false);
-    this.ticketService.GetHistoty({userLogin: user.login, type_of_service: this.type, indication: this.indication}).subscribe(
+    this.ticketService.GetHistoty({ userLogin: user.login, type_of_service: this.type, indication: this.indication }).subscribe(
       (result: any) => {
         let interpretResponse = this.helperDev.InterpretResponse(result);
         if (interpretResponse.status == false) {
@@ -96,7 +116,7 @@ export class HistoryPage implements OnInit {
   RenderList() {
     for (let a = 0; a < this.list.length; a++) {
       let date = moment(this.list[a].date).format('L');
-      if(date == moment().format('L')) this.list[a].date = moment(this.list[a].date).format('LT');
+      if (date == moment().format('L')) this.list[a].date = moment(this.list[a].date).format('LT');
       else this.list[a].date = date;
     }
   }
@@ -106,7 +126,7 @@ export class HistoryPage implements OnInit {
     this.modal.type_of_message = messageType;
     this.modal.message = message;
     if (setTimeout_vr) {
-      if(this.notfyTimeout) clearTimeout(this.notfyTimeout);
+      if (this.notfyTimeout) clearTimeout(this.notfyTimeout);
       this.notfyTimeout = setTimeout(() => {
         this.Notify('hide', '', '', false);
       }, 5000);

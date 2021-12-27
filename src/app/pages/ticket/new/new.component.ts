@@ -17,6 +17,10 @@ import { notification } from 'src/app/interface/others';
 import { Storage } from '@capacitor/storage';
 //#endregion
 
+//#region Others
+import * as moment from 'moment';
+//#endregion
+
 interface HTMLInputEvent extends Event {
   target: HTMLInputElement & EventTarget;
 }
@@ -33,9 +37,16 @@ export class NewComponent implements OnInit {
   notfyTimeout: any = null;
   attached: any = null;
   attachedName: string = 'Nombre del archivo';
+  indication: string = '';
+  styleList: boolean = false;
+  //#endregion
+
+  //#region List
+  records: any = [];
   //#endregion
 
   //#region Object
+  user: any = {};
   modal: notification = {
     modal: 'hide',
     type_of_message: '',
@@ -62,8 +73,8 @@ export class NewComponent implements OnInit {
 
   async ionViewWillEnter() {
     this.CleanForm();
-    let user = JSON.parse((await Storage.get({key: 'user'})).value);
-    this.form.get('customerLogin').setValue(user.login);
+    this.user = JSON.parse((await Storage.get({key: 'user'})).value);
+    this.form.get('customerLogin').setValue(this.user.login);
     this.form.get('password').setValue(JSON.parse((await Storage.get({key: '01e'})).value));
   }
   //#endregion
@@ -86,6 +97,23 @@ export class NewComponent implements OnInit {
         this.CleanForm()
       },
       error => this.Notify('show-message', 'bug', '(404) Error interno.', true)
+    )
+  }
+
+  GetTickets() {
+    this.Notify('show-loading', '', 'Cargando registros', false);
+    this.ticketService.GetHistoty({userLogin: this.user.login, type_of_service: '1', indication: this.indication}).subscribe(
+      (result: any) => {
+        let interpretResponse = this.helperDev.InterpretResponse(result);
+        if (interpretResponse.status == false) {
+          this.Notify('show-message', 'bug', 'Error interno.', true)
+          return;
+        }
+        this.Notify('hide', '', '', false);
+        this.records = result.history;
+        this.RenderList();
+      },
+      error => this.Notify('show-message', 'bug', '(404) Error interno.', false)
     )
   }
   //#endregion
@@ -114,6 +142,14 @@ export class NewComponent implements OnInit {
       this.notfyTimeout = setTimeout(() => {
         this.Notify('hide', '', '', false);
       }, 5000);
+    }
+  }
+
+  RenderList() {
+    for (let a = 0; a < this.records.length; a++) {
+      let date = moment(this.records[a].date).format('L');
+      if (date == moment().format('L')) this.records[a].date = moment(this.records[a].date).format('LT');
+      else this.records[a].date = date;
     }
   }
   //#endregion

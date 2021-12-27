@@ -56,10 +56,13 @@ export class LoginPage implements OnInit {
 
   //#region Live Cycle
   async ionViewWillEnter() {
-    let token = JSON.parse((await Storage.get({key: TOKEN_KEY})).value);
-    if(token && token != null && token != undefined && token != ''){
-      this.router.navigate(['/home'])
+    let token = JSON.parse((await Storage.get({ key: TOKEN_KEY })).value);
+    if (token && token != null && token != undefined && token != '') {
+      this.router.navigate(['/home']);
+      return;
     }
+    this.loginForm.get('userLogin').setValue('');
+    this.loginForm.get('password').setValue('');
   }
 
   ngOnInit() {
@@ -77,8 +80,8 @@ export class LoginPage implements OnInit {
         let interpretResponse = this.helperDev.InterpretResponse(result);
         if (interpretResponse.status == true) {
           await this.userService.LoadToken(result);
-          if(op == 2) {
-            let navigateTo ='http://161.35.62.68/otrs/customer.pl/customer.pl' + '?' + 'OTRSCustomerInterface' + '=' + result.SessionID;
+          if (op == 2) {
+            let navigateTo = 'http://161.35.62.68/otrs/customer.pl/customer.pl' + '?' + 'OTRSCustomerInterface' + '=' + result.SessionID;
             window.open(navigateTo, "_blank");
           }
           this.router.navigate(['/home']);
@@ -98,7 +101,7 @@ export class LoginPage implements OnInit {
     this.modal.type_of_message = messageType;
     this.modal.message = message;
     if (setTimeout_vr) {
-      if(this.notfyTimeout) clearTimeout(this.notfyTimeout);
+      if (this.notfyTimeout) clearTimeout(this.notfyTimeout);
       this.notfyTimeout = setTimeout(() => {
         this.Notify('hide', '', '', false);
       }, 5000);

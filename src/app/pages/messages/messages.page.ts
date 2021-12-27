@@ -47,6 +47,7 @@ export class MessagesPage implements OnInit {
   notfyTimeout: any = null;
 
   //#region DOM
+  loadingMessage:string = 'ml-hide';
   styleModalsubject: string = 'subject-modal-hide';
   //#endregion
 
@@ -96,7 +97,7 @@ export class MessagesPage implements OnInit {
   //#region Live cycle
   async ngOnInit() {
     this.url_api = environment.api_url;
-    let user = JSON.parse((await Storage.get({key: 'user'})).value);
+    let user = JSON.parse((await Storage.get({ key: 'user' })).value);
 
     this.socket.fromEvent('message').subscribe(
       (result: any) => {
@@ -117,7 +118,7 @@ export class MessagesPage implements OnInit {
   }
 
   async ionViewWillEnter() {
-    this.userService.token = JSON.parse((await Storage.get({key: TOKEN_KEY})).value);
+    this.userService.token = JSON.parse((await Storage.get({ key: TOKEN_KEY })).value);
     this.route.paramMap.subscribe(
       async param => {
         if (param.has('chatID')) {
@@ -142,6 +143,7 @@ export class MessagesPage implements OnInit {
 
   //#region API
   CreateChat() {
+    this.loadingMessage = 'ml-show';
     this.chatService.Create(this.chatForm.value, this.messageForm.value, this.attached).subscribe(
       (result: any) => {
         let interpretResponse = this.helperDev.InterpretResponse(result);
@@ -154,9 +156,13 @@ export class MessagesPage implements OnInit {
           this.file.nativeElement.value = '';
           this.attached = null;
         }
+        this.loadingMessage = 'ml-hide';
         this.router.navigate(["/chat", result.chatID])
       },
-      error => this.Notify('show-message', 'bug', '(404) Error interno.', true)
+      error => {
+        this.loadingMessage = 'ml-hide';
+        this.Notify('show-message', 'bug', '(404) Error interno.', true)
+      }
     )
   }
 
@@ -169,7 +175,7 @@ export class MessagesPage implements OnInit {
           return;
         }
         this.chat = result.result;
-        if(this.chat.data.to_login)
+        if (this.chat.data.to_login)
           this.messageForm.get('to').setValue(this.chat.data.to_login);
         else this.messageForm.get('to').setValue('0');
         this.UpdateMessage();
@@ -180,11 +186,12 @@ export class MessagesPage implements OnInit {
   }
 
   SendMessage() {
+    this.loadingMessage = 'ml-show';
     if (this.attached) this.messageForm.get('body').setValue(this.attached.name);
 
     this.chatService.CreateMessage(this.messageForm.value, this.attached).subscribe(
       (result: any) => {
-        
+
         let interpretResponse = this.helperDev.InterpretResponse(result);
         if (interpretResponse.status == false) {
           this.Notify('show-message', 'bug', 'Error interno.', true);
@@ -200,8 +207,12 @@ export class MessagesPage implements OnInit {
           this.attached = null;
         }
         this.GetMessages();
+        this.loadingMessage = 'ml-hide';
       },
-      error => this.Notify('show-message', 'bug', '(404) Error interno.', true)
+      error => {
+        this.loadingMessage = 'ml-hide';
+        this.Notify('show-message', 'bug', '(404) Error interno.', true)
+      }
     )
   }
 
@@ -283,9 +294,11 @@ export class MessagesPage implements OnInit {
   RenderList() {
     for (let a = 0; a < this.chat.messages.length; a++) {
       let date = moment(this.chat.messages[a].date).format('L');
-      if(date == moment().format('L')) this.chat.messages[a].date = moment(this.chat.messages[a].date).format('LT');
+      if (date == moment().format('L')) this.chat.messages[a].date = moment(this.chat.messages[a].date).format('LT');
       else this.chat.messages[a].date = date;
     }
+    var objDiv = document.getElementById("chat-messages");
+    objDiv.scrollTop = objDiv.scrollHeight;
   }
   //#endregion
 }

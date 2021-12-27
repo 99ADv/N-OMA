@@ -54,6 +54,10 @@ export class ChatService {
     return this.http.get(this.url_api, { params: params });
   }
 
+  GetNewMessages(params: any) {
+    return this.http.get(this.url_api+'new-messages', { params: params });
+  }
+
   GetData(params: any) {
     return this.http.get(this.url_api + 'data', { params: params });
   }

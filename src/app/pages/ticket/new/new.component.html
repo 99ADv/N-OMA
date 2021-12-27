@@ -8,12 +8,16 @@
       <div class="title">
         Nuevo caso
       </div>
+      <div class="options">
+        <button *ngIf="!styleList" (click)="styleList= true; GetTickets()"><i class="fas fa-list-ul"></i></button>
+        <button *ngIf="styleList" (click)="styleList= false"><i class="fas fa-ticket-alt"></i></button>
+      </div>
     </div>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-<form [formGroup]="form" (ngSubmit)="CreateTicket()">
+<form class="form" *ngIf="!styleList" [formGroup]="form" (ngSubmit)="CreateTicket()">
   <textarea formControlName="subject" placeholder="Asunto" name="subject" id="subject" cols="30" rows="3"></textarea>
   <textarea formControlName="body" placeholder="Cuerpo del mensaje" name="body" id="body" cols="30" rows="10"></textarea>
   <input (change)="OnFile($event)" #file style="display: none;" type="file">
@@ -27,5 +31,25 @@
   <button [disabled]="!form.valid" class="btn-send"><i class="fas fa-paper-plane"></i></button>
   <span class="text-footer">Este caso irá a la mesa de servicio para ser atendido.</span>
 </form>
+<ion-list>
+  <div *ngIf="styleList" class="records-div">
+    <form (ngSubmit)="GetTickets()" class="filter-input">
+      <input autocomplete="off" [(ngModel)]="indication" placeholder="Asunto o fecha" name="indication" id="indicatio" type="text">
+      <button><i class="fas fa-search"></i></button>
+    </form>
+    <div class="records">
+      <div class="item-1" *ngFor="let item of records">
+        <div>
+          <i *ngIf="item.type == 22" class="fas fa-ticket-alt"></i>
+          <i *ngIf="item.type == 2" class="far fa-comments active"></i>
+          <div>
+            <span>{{item.title}}</span>
+            <small>{{item.date}}</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-list>
 <app-notification (showEvent)="modal.modal=$event" [modal]="modal"></app-notification>
 </ion-content>
