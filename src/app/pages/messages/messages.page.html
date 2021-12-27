@@ -52,7 +52,7 @@
       <div class="subject-modal-content">
         <form (ngSubmit)="OpenChat()" [formGroup]="chatForm">
           <div class="form-control">
-            <textarea placeholder="Ecriba detallamente el asunto del chat"  formControlName="subject" name="subject" id="subject" cols="30" rows="3"></textarea>
+            <textarea placeholder="Escriba detallamente el asunto del chat"  formControlName="subject" name="subject" id="subject" cols="30" rows="3"></textarea>
           </div>
           <button class="btn-i" [disabled]="!chatForm.valid" id="call">Iniciar chat</button>
         </form>
