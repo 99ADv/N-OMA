@@ -1,6 +1,7 @@
 //#region Angular
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { Platform } from '@ionic/angular';
 //#endregion
 
 //#region Service
@@ -16,6 +17,13 @@ import { notification } from 'src/app/interface/others';
 
 //#region Capacitor
 import { Storage } from '@capacitor/storage';
+import {
+  ActionPerformed,
+  PushNotificationSchema,
+  PushNotifications,
+  Token
+} from '@capacitor/push-notifications';
+import { FCM } from "@capacitor-community/fcm";
 //#endregion
 
 //#region Variables
@@ -83,7 +91,8 @@ export class HomePage {
     private helperDev: HelpersDevService,
     private userSerivce: UserService,
     private socket: Socket,
-    private chatService: ChatService
+    private chatService: ChatService,
+    private platform: Platform
   ) { }
 
   //#region life cycle
@@ -111,7 +120,7 @@ export class HomePage {
     //     }
     //   }
     // )
-
+    this.Initialize();
     this.socket.fromEvent('notification').subscribe(
       async (result: any) => {
         await Storage.remove({ key: 'notification' });
@@ -145,6 +154,57 @@ export class HomePage {
 
   //#endregion
 
+  Initialize(): void {
+    if (this.platform.is('capacitor')) {
+      PushNotifications.requestPermissions().then(result => {
+        if (result.receive === 'granted') {
+          // Register with Apple / Google to receive push via APNS/FCM
+          PushNotifications.register();
+          console.log("Permisos concedidos");
+        } else {
+          // Show some error
+          console.log("no se consedieron los permisos");
+        }
+      });
+
+      // On success, we should be able to receive notifications
+      PushNotifications.addListener('registration',
+        (token: Token) => {
+          console.log('Push registration success, token: ' + token.value);
+        }
+      );
+
+      // Some issue with our setup and push will not work
+      PushNotifications.addListener('registrationError',
+        (error: any) => {
+          console.log('Error on registration: ' + JSON.stringify(error));
+        }
+      );
+
+      // Show us the notification payload if the app is open on our device
+      PushNotifications.addListener('pushNotificationReceived',
+        (notification: PushNotificationSchema) => {
+          console.log('Push received: ' + JSON.stringify(notification));
+        }
+      );
+
+      // Method called when tapping on a notification
+      PushNotifications.addListener('pushNotificationActionPerformed',
+        (notification: ActionPerformed) => {
+          console.log('Push action performed: ' + JSON.stringify(notification));
+        }
+      );
+
+      // now you can subscribe to a specific topic
+      FCM.subscribeTo({ topic: "not" })
+        .then((r) => console.log(`subscribed to topic`))
+        .catch((err) => console.log(err));
+      // Get FCM token instead the APN one returned by Capacitor
+      FCM.getToken()
+        .then((r) => console.log(`Token ${r.token}`))
+        .catch((err) => console.log(err));
+    }
+  }
   //#region API
   GetAbstract() {
     this.Notify('show-loading', 'Cargando contendido', '', false)
