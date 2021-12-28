@@ -169,6 +169,7 @@ export class HomePage {
     await Storage.remove({ key: 'user' });
     await Storage.remove({ key: 'notification' });
     await Storage.remove({ key: 'chat' });
+    await Storage.remove({ key: '01e' });
     this.router.navigate(['/login']);
   }
 
