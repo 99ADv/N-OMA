@@ -86,8 +86,6 @@ export class NewComponent implements OnInit {
     this.Notify('show-loading', '', 'Enviando ticket.', false);
     this.ticketService.Create(this.form.value, this.attached).subscribe(
       (result: Object) => {    
-        console.log(result);
-        
         let interpretResponse = this.helperDev.InterpretResponse(result);
         if (interpretResponse.status == false) {
           this.Notify('show-message', 'bug', 'Error interno.', true)

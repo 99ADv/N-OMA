@@ -25,7 +25,7 @@
   </div>
   <ion-list>
     <ng-container *ngIf="list.length > 0 && !styleList">
-      <small class="title" >Contactos:</small>
+      <small class="title">Contactos:</small>
       <div class="item-2" *ngFor="let item of list">
         <button (click)="Create(item.id, item.number)">
           <span class="name">{{item.name}}</span>
@@ -35,22 +35,30 @@
     </ng-container>
     <div *ngIf="styleList" class="records-div">
       <form (ngSubmit)="GetCall()" class="filter-input">
-        <input autocomplete="off" [(ngModel)]="indication" placeholder="Asunto o fecha" name="indication" id="indicatio" type="text">
+        <input autocomplete="off" [(ngModel)]="indication" placeholder="Asunto o fecha" name="indication" id="indicatio"
+          type="text">
         <button><i class="fas fa-search"></i></button>
       </form>
       <div class="records">
         <div class="item-1" *ngFor="let item of records">
-          <div>
-            <i *ngIf="item.type == 44" class="fas fa-phone-alt active"></i>
-            <i *ngIf="item.type == 4" class="fas fa-phone-alt"></i>
+          <div *ngIf="item.type == 4">
+            <i class="fas fa-phone-alt"></i>
             <div>
               <span>{{item.telName}}</span>
               <small>{{item.date}}</small>
             </div>
           </div>
+          <a [routerLink]="['/ticket', item.id]" *ngIf="item.type == 44">
+            <i class="fas fa-phone-alt active"></i>
+            <div>
+              <span>{{item.telName}}</span>
+              <small>{{item.date}}</small>
+            </div>
+          </a>
         </div>
       </div>
     </div>
   </ion-list>
   <app-notification (showEvent)="modal.modal=$event" [modal]="modal"></app-notification>
 </ion-content>
+

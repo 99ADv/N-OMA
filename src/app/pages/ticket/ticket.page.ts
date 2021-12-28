@@ -64,8 +64,6 @@ export class TicketPage implements OnInit {
     this.Notify('show-loading', '', 'Cargando datos', false);
     this.ticketService.Get({ ticketID: this.id }).subscribe(
       (result: any) => {
-        console.log(result);
-        
         let interpretResponse = this.helperDev.InterpretResponse(result);
         if (interpretResponse.status == false) {
           this.Notify('show-message', 'bug', 'Error interno.', true);

@@ -39,14 +39,13 @@
     </form>
     <div class="records">
       <div class="item-1" *ngFor="let item of records">
-        <div>
-          <i *ngIf="item.type == 22" class="fas fa-ticket-alt"></i>
-          <i *ngIf="item.type == 2" class="far fa-comments active"></i>
+        <a [routerLink]="['/ticket', item.id]">
+          <i class="fas fa-ticket-alt"></i>
           <div>
             <span>{{item.title}}</span>
             <small>{{item.date}}</small>
           </div>
-        </div>
+        </a>
       </div>
     </div>
   </div>

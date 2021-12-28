@@ -88,12 +88,11 @@ export class ChatPage implements OnInit {
         }
       }
     )
-
-    this.Get();
   }
 
   async ionViewWillEnter() {
     this.userService.token = JSON.parse((await Storage.get({key: TOKEN_KEY})).value);
+    this.Get();
   }
   //#endregion
 

@@ -54,7 +54,7 @@
           <i *ngIf="item.type == 22" class="far fa-comments active"></i>
           <i *ngIf="item.type == 44" class="fas fa-phone-alt active"></i>
           <div>
-            <span>{{item.title}}</span>
+            <span>{{item.title || item.telName}}</span>
             <small>{{item.date}}</small>
           </div>
         </a>
@@ -75,7 +75,7 @@
         <div *ngIf="item.type == 4">
           <i class="fas fa-phone-alt"></i>
           <div>
-            <span>{{item.title}}</span>
+            <span>{{item.telName}}</span>
             <small>{{item.date}}</small>
           </div>
         </div>
