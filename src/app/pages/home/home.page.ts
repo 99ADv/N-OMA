@@ -9,6 +9,7 @@ import { TicketService } from 'src/app/core/services/ticket/ticket.service';
 import { HelpersDevService } from 'src/app/core/services/helperDev/helper-dev.service';
 import { UserService } from 'src/app/core/services/user/user.service';
 import { ChatService } from 'src/app/core/services/chat/chat.service';
+import { NotificactionService } from 'src/app/core/services/notification/notificaction.service';
 //#endregion
 
 //#region Interface
@@ -92,7 +93,8 @@ export class HomePage {
     private userSerivce: UserService,
     private socket: Socket,
     private chatService: ChatService,
-    private platform: Platform
+    private platform: Platform,
+    private notification: NotificactionService
   ) { }
 
   //#region life cycle
@@ -147,6 +149,7 @@ export class HomePage {
           return;
         }
         const chats = result.result.new_messages;
+        
         await Storage.remove({ key: 'chat' });
         this.chatBell = false;
         if (chats > 0) {
@@ -159,6 +162,28 @@ export class HomePage {
         }
       },
       error => this.Notify('show-message', 'bug', '(404) Error interno.', true)
+    )
+  }
+
+  GetNotification() {
+    this.notification.Get({fromPage: '1'}).subscribe(
+      async (result: any) => {
+        
+        let interpretResponse = this.helperDev.InterpretResponse(result);
+        if (interpretResponse.status == false) {
+          this.Notify('show-message', 'bug', 'Error interno.', true)
+          return;
+        }
+        this.Notify('hide', '', '', false);
+        
+        await Storage.remove({ key: 'notification' });
+        this.bell = false;
+        if(result.notifications > 0) {
+          await Storage.set({ key: 'notification', value: 'true' });
+          this.bell = true;
+        }
+      },
+      error => this.Notify('show-message', 'bug', '(404) Error interno.', false)
     )
   }
   //#endregion
