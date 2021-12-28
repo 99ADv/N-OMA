@@ -167,6 +167,8 @@ export class HomePage {
   async SingOut() {
     await Storage.remove({ key: TOKEN_KEY });
     await Storage.remove({ key: 'user' });
+    await Storage.remove({ key: 'notification' });
+    await Storage.remove({ key: 'chat' });
     this.router.navigate(['/login']);
   }
 
