@@ -80,16 +80,12 @@ export class LoginPage implements OnInit {
         let interpretResponse = this.helperDev.InterpretResponse(result);
         if (interpretResponse.status == true) {
           await this.userService.LoadToken(result);
-          if (op == 2) {
-            let navigateTo = 'http://161.35.62.68/otrs/customer.pl/customer.pl' + '?' + 'OTRSCustomerInterface' + '=' + result.SessionID;
-            window.open(navigateTo, "_blank");
-          }
           this.router.navigate(['/home']);
         } else this.Notify('show-message', 'alert', interpretResponse.message, true);
       }
       , error => {
         this.loginButtonStyle = 'login-btn-event';
-        this.Notify('show-message', 'bug', '(404)Error interno.', true)
+        this.Notify('show-message', 'bug', '(404) Error interno.', true)
       }
     )
   }

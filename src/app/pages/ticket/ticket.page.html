@@ -21,9 +21,9 @@
       <span class="value">{{ticket.Title}}</span>
     </div>
     <span class="date">{{ticket.Created | date: "d/M/yyyy h:mm a"}}</span>
-    <a target="_blank" href="http://161.35.62.68/otrs/customer">Ver más detalles</a>
+    <a target="_blank" href="http://161.35.62.68/otrs/customer.pl">Ver más detalles</a>
     <div class="body">
-      <span>Hisorial de conversasión</span>
+      <span>Historial de conversasión</span>
       <div [innerHTML]="item.Body" [ngClass]="item.SenderTypeID == 1 ? 'item-customer' : 'item-agent'"
         *ngFor="let item of ticket.Article">
       </div>
