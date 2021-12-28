@@ -112,6 +112,7 @@ export class HomePage {
 
     this.GetAbstract();
     this.GetMessages(false);
+    this.GetNotification();
   }
 
   async ngOnInit() {
@@ -149,7 +150,7 @@ export class HomePage {
           return;
         }
         const chats = result.result.new_messages;
-        
+
         await Storage.remove({ key: 'chat' });
         this.chatBell = false;
         if (chats > 0) {
@@ -178,7 +179,8 @@ export class HomePage {
         
         await Storage.remove({ key: 'notification' });
         this.bell = false;
-        if(result.notifications > 0) {
+        
+        if(result.notifications.length > 0) {
           await Storage.set({ key: 'notification', value: 'true' });
           this.bell = true;
         }
