@@ -56,8 +56,8 @@ export class LoginPage implements OnInit {
 
   //#region Live Cycle
   async ionViewWillEnter() {
-    let token = await Storage.get({ key: TOKEN_KEY });
-    if (token && token.value != '') {
+    let token = JSON.parse((await Storage.get({ key: TOKEN_KEY })).value);
+    if (token && token != null && token != undefined && token != '') {
       this.router.navigate(['/home']);
       return;
     }
