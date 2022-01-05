@@ -10,7 +10,7 @@
     "ionic-build-android": "ionic capacitor build android --prod",
     "ionic-generate-apk-android": "ionic capacitor copy android && cd android && ./gradlew assembleDebug && ./gradlew installDebug && cd ..",
     "ionic-build-ios": "ionic capacitor build ios",
-    "ionic-generate-resources": "cordova-res --skip-config --copy",
+    "ionic-generate-resources-android": "cordova-res android --skip-config --copy",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
