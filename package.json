@@ -6,12 +6,15 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "watch-app-dev-android": "ionic cap run android -l --external",
+    "ionic-build-android": "ionic capacitor build android --prod",
+    "ionic-generate-apk-android": "ionic capacitor copy android && cd android && ./gradlew assembleDebug && ./gradlew installDebug && cd ..",
+    "ionic-build-ios": "ionic capacitor build ios",
+    "ionic-generate-resources": "cordova-res --skip-config --copy",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e",
-    "ionic-build-android": "ionic capacitor build android --prod",
-    "ionic-build-ios": "ionic capacitor build ios"
+    "e2e": "ng e2e"
   },
   "private": true,
   "dependencies": {
@@ -29,6 +32,7 @@
     "@capacitor/keyboard": "1.2.0",
     "@capacitor/local-notifications": "^1.0.9",
     "@capacitor/push-notifications": "^1.0.7",
+    "@capacitor/splash-screen": "^1.2.0",
     "@capacitor/status-bar": "1.0.6",
     "@capacitor/storage": "^1.2.3",
     "@ionic-native/call-number": "^5.36.0",
