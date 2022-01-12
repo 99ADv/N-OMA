@@ -100,10 +100,9 @@ export class ChatPage implements OnInit {
 
   //#region API
   async Get() {
-    this.Notify('show-loading', '', 'Cargando lista de chats', false);
     let user = JSON.parse((await Storage.get({key: 'user'})).value);
     
-    this.Notify('show-loading', '', 'Cargando lista', false);
+    // this.Notify('show-loading', '', 'Cargando lista', false);
     this.chatService.Get({ fromPage: '1', userLogin: user.login, indication: this.indication }).subscribe(
       (result: any) => {
         let interpretResponse = this.helperDev.InterpretResponse(result);
