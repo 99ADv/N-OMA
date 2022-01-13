@@ -300,6 +300,10 @@ export class HomePage {
       FCM.subscribeTo({ topic: "not" })
         .then((r) => console.log(`subscribed to topic`, r))
         .catch((err) => console.log(err));
+
+      // FCM.subscribeTo({ topic: this.user.login })
+      //   .then((r) => console.log(`subscribed to topic`, r))
+      //   .catch((err) => console.log(err));
     }
   }
   //#endregion
