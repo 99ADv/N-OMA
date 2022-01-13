@@ -22,9 +22,11 @@ import {
   ActionPerformed,
   PushNotificationSchema,
   PushNotifications,
-  Token
+  Token,
+  Channel
 } from '@capacitor/push-notifications';
 import { FCM } from "@capacitor-community/fcm";
+import { LocalNotifications, ScheduleOptions } from '@capacitor/local-notifications';
 //#endregion
 
 //#region Variables
@@ -116,7 +118,7 @@ export class HomePage {
   }
 
   async ngOnInit() {
-    // this.LocalNotification();
+    this.LocalNotification();
     this.SocketEvents();
   }
   //#endregion
@@ -167,20 +169,20 @@ export class HomePage {
   }
 
   GetNotification() {
-    this.notification.Get({fromPage: '1'}).subscribe(
+    this.notification.Get({ fromPage: '1' }).subscribe(
       async (result: any) => {
-        
+
         let interpretResponse = this.helperDev.InterpretResponse(result);
         if (interpretResponse.status == false) {
           this.Notify('show-message', 'bug', 'Error interno.', true)
           return;
         }
         this.Notify('hide', '', '', false);
-        
+
         await Storage.remove({ key: 'notification' });
         this.bell = false;
-        
-        if(result.notifications.length > 0) {
+
+        if (result.notifications.length > 0) {
           await Storage.set({ key: 'notification', value: 'true' });
           this.bell = true;
         }
@@ -240,6 +242,7 @@ export class HomePage {
 
   LocalNotification(): void {
     if (this.platform.is('capacitor')) {
+
       PushNotifications.requestPermissions().then(result => {
         if (result.receive === 'granted') {
           // Register with Apple / Google to receive push via APNS/FCM
@@ -255,7 +258,7 @@ export class HomePage {
       // On success, we should be able to receive notifications
       // PushNotifications.addListener('registration',
       //   (token: Token) => {
-      //     // console.log('Push registration success, token: ' + token.value);
+      //     console.log('Push registration success, token: ' + token.value);
       //   }
       // );
 
@@ -267,23 +270,36 @@ export class HomePage {
       // );
 
       // Show us the notification payload if the app is open on our device
-      // PushNotifications.addListener('pushNotificationReceived',
-      //   (notification: PushNotificationSchema) => {
-      //     // console.log('Push received: ' + JSON.stringify(notification));
-      //   }
-      // );
+      PushNotifications.addListener('pushNotificationReceived',
+        (notification: PushNotificationSchema) => {
+          console.log('Push received: ', notification);
+          const data: ScheduleOptions = {
+            notifications: [
+              {
+                id: parseInt(notification.id),
+                title: notification.title,
+                body: notification.body,
+              }
+            ]
+          };
+          LocalNotifications.schedule(data).then(result => {
+            console.log(result);
+          });
+        }
+      );
 
       // Method called when tapping on a notification
-      // PushNotifications.addListener('pushNotificationActionPerformed',
-      //   (notification: ActionPerformed) => {
-      //     // console.log('Push action performed: ' + JSON.stringify(notification));
-      //   }
-      // );
+      PushNotifications.addListener('pushNotificationActionPerformed',
+        (notification: ActionPerformed) => {
+          console.log('Push action performed: ', notification);
+          this.router.navigate(['/notifications']);
+        }
+      );
       //#endregion
 
       FCM.subscribeTo({ topic: "not" })
-      .then((r) => console.log(`subscribed to topic`))
-      .catch((err) => console.log(err));
+        .then((r) => console.log(`subscribed to topic`, r))
+        .catch((err) => console.log(err));
     }
   }
   //#endregion
